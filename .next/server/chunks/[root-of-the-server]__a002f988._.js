@@ -95,7 +95,7 @@ async function POST(req) {
             name: data.name,
             quantity: Number(data.quantity),
             cost: Number(data.cost),
-            supplier: data.supplier,
+            supplierId: data.supplierId,
             measurementUnitId: data.measurementUnitId
         },
         include: {

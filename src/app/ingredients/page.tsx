@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import type { PrismaClient, MeasurementUnit, Ingredient } from "@prisma/client";
+import type { MeasurementUnit, Ingredient } from "@prisma/client";
 
 // NOTE: In a real app, you would fetch data via API routes, not import Prisma directly in a Next.js page.
 // For demo purposes, this is simplified. In production, use API routes or server actions for DB access.
@@ -12,28 +12,27 @@ export default function IngredientsPage() {
   const [editingId, setEditingId] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch("/api/ingredients").then(res => res.json()).then(setIngredients);
-    fetch("/api/measurement-units").then(res => res.json()).then(setUnits);
+    void fetch("/api/ingredients").then(async res => setIngredients(await res.json() as IngredientWithUnit[]));
+    void fetch("/api/measurement-units").then(async res => setUnits(await res.json() as MeasurementUnit[]));
   }, []);
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
     setForm({ ...form, [e.target.name]: e.target.value });
   }
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     const method = editingId ? "PUT" : "POST";
-    fetch("/api/ingredients" + (editingId ? `/${editingId}` : ""), {
+    const response = await fetch("/api/ingredients" + (editingId ? `/${editingId}` : ""), {
       method,
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(form),
-    })
-      .then(res => res.json())
-      .then((updated) => {
-        setForm({});
-        setEditingId(null);
-        fetch("/api/ingredients").then(res => res.json()).then(setIngredients);
-      });
+    });
+    await response.json();
+    setForm({});
+    setEditingId(null);
+    const ingredientsResponse = await fetch("/api/ingredients");
+    setIngredients(await ingredientsResponse.json() as IngredientWithUnit[]);
   }
 
   function handleEdit(ingredient: IngredientWithUnit) {
@@ -42,8 +41,9 @@ export default function IngredientsPage() {
   }
 
   function handleDelete(id: string) {
-    fetch(`/api/ingredients/${id}`, { method: "DELETE" })
-      .then(() => fetch("/api/ingredients").then(res => res.json()).then(setIngredients));
+    void fetch(`/api/ingredients/${id}`, { method: "DELETE" })
+      .then(() => void fetch("/api/ingredients").then(async res => setIngredients(await res.json() as IngredientWithUnit[])));
+
   }
 
   return (
@@ -53,7 +53,7 @@ export default function IngredientsPage() {
         <input
           name="name"
           placeholder="Name"
-          value={form.name || ""}
+          value={form.name ?? ""}
           onChange={handleChange}
           className="border p-2 rounded w-full"
           required
@@ -62,7 +62,7 @@ export default function IngredientsPage() {
           name="quantity"
           placeholder="Quantity"
           type="number"
-          value={form.quantity || ""}
+          value={form.quantity ?? ""}
           onChange={handleChange}
           className="border p-2 rounded w-full"
           required
@@ -71,22 +71,22 @@ export default function IngredientsPage() {
           name="cost"
           placeholder="Cost"
           type="number"
-          value={form.cost || ""}
+          value={form.cost ?? ""}
           onChange={handleChange}
           className="border p-2 rounded w-full"
           required
         />
         <input
-          name="supplier"
-          placeholder="Supplier"
-          value={form.supplier || ""}
+          name="supplierId"
+          placeholder="Supplier ID"
+          value={form.supplierId ?? ""}
           onChange={handleChange}
           className="border p-2 rounded w-full"
           required
         />
         <select
           name="measurementUnitId"
-          value={form.measurementUnitId || ""}
+          value={form.measurementUnitId ?? ""}
           onChange={handleChange}
           className="border p-2 rounded w-full"
           required
@@ -123,7 +123,7 @@ export default function IngredientsPage() {
               <td className="border p-2">{ingredient.quantity}</td>
               <td className="border p-2">{ingredient.measurementUnit?.name} ({ingredient.measurementUnit?.code})</td>
               <td className="border p-2">{ingredient.cost}</td>
-              <td className="border p-2">{ingredient.supplier}</td>
+              <td className="border p-2">{ingredient.supplierId}</td>
               <td className="border p-2">
                 <button className="mr-2 text-blue-600" onClick={() => handleEdit(ingredient)}>Edit</button>
                 <button className="text-red-600" onClick={() => handleDelete(ingredient.id)}>Delete</button>

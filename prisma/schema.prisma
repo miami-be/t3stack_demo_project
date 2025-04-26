@@ -40,9 +40,20 @@ model Ingredient {
     measurementUnit   MeasurementUnit  @relation(fields: [measurementUnitId], references: [id])
     quantity          Float
     cost              Float
-    supplier          String
+    supplierId        String
+    supplier          Supplier         @relation(fields: [supplierId], references: [id])
     createdAt         DateTime         @default(now())
     updatedAt         DateTime         @updatedAt
+}
+
+model Supplier {
+    id           String      @id @default(cuid())
+    name         String
+    contactName  String
+    contactPhone String
+    ingredients  Ingredient[]
+    createdAt    DateTime    @default(now())
+    updatedAt    DateTime    @updatedAt
 }
 
 

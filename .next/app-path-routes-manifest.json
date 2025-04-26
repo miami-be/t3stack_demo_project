@@ -1,0 +1,12 @@
+{
+  "/_not-found/page": "/_not-found",
+  "/api/ingredients/[id]/route": "/api/ingredients/[id]",
+  "/api/ingredients/route": "/api/ingredients",
+  "/api/measurement-units/route": "/api/measurement-units",
+  "/api/suppliers/route": "/api/suppliers",
+  "/api/trpc/[trpc]/route": "/api/trpc/[trpc]",
+  "/ingredients/page": "/ingredients",
+  "/suppliers/page": "/suppliers",
+  "/page": "/",
+  "/api/auth/[...nextauth]/route": "/api/auth/[...nextauth]"
+}

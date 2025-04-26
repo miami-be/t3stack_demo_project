@@ -1,18 +1,28 @@
-import { NextRequest, NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
+import { NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
 // PUT: Update ingredient
-export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
-  const data = await req.json();
+type IngredientUpdate = {
+  name: string;
+  quantity: number;
+  cost: number;
+  supplierId: string;
+  measurementUnitId: string;
+};
+
+export async function PUT(req: NextRequest) {
+  const id = req.nextUrl.pathname.split("/").pop();
+  const data = (await req.json()) as IngredientUpdate;
   const ingredient = await prisma.ingredient.update({
-    where: { id: params.id },
+    where: { id },
     data: {
       name: data.name,
       quantity: Number(data.quantity),
       cost: Number(data.cost),
-      supplier: data.supplier,
+      supplierId: data.supplierId,
       measurementUnitId: data.measurementUnitId,
     },
     include: { measurementUnit: true },
@@ -21,7 +31,8 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
 }
 
 // DELETE: Delete ingredient
-export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
-  await prisma.ingredient.delete({ where: { id: params.id } });
+export async function DELETE(req: NextRequest) {
+  const id = req.nextUrl.pathname.split("/").pop();
+  await prisma.ingredient.delete({ where: { id } });
   return NextResponse.json({ success: true });
 }

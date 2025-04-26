@@ -102,6 +102,7 @@
     --color-blue-700: oklch(48.8% .243 264.376);
     --color-blue-800: oklch(42.4% .199 265.638);
     --color-blue-900: oklch(37.9% .146 265.522);
+    --color-gray-50: oklch(98.5% .002 247.839);
     --color-gray-100: oklch(96.7% .003 264.542);
     --color-gray-200: oklch(92.8% .006 264.531);
     --color-gray-300: oklch(87.2% .01 258.338);
@@ -566,6 +567,14 @@
     background-color: var(--color-blue-600);
   }
 
+  .bg-gray-50 {
+    background-color: var(--color-gray-50);
+  }
+
+  .bg-gray-100 {
+    background-color: var(--color-gray-100);
+  }
+
   .bg-white {
     background-color: var(--color-white);
   }
@@ -674,6 +683,10 @@
     color: var(--color-blue-600);
   }
 
+  .text-gray-600 {
+    color: var(--color-gray-600);
+  }
+
   .text-red-600 {
     color: var(--color-red-600);
   }
@@ -741,6 +754,16 @@
     transition-timing-function: var(--ease-out);
   }
 
+  .\[client\:\"\+a\.version\+\"\] {
+    client: "+a.version+";
+  }
+
+  @media (hover: hover) {
+    .hover\:bg-blue-700:hover {
+      background-color: var(--color-blue-700);
+    }
+  }
+
   @media (hover: hover) {
     .hover\:bg-white\/20:hover {
       background-color: #fff3;
@@ -751,6 +774,16 @@
         background-color: color-mix(in oklab, var(--color-white) 20%, transparent);
       }
     }
+  }
+
+  @media (hover: hover) {
+    .hover\:underline:hover {
+      text-decoration-line: underline;
+    }
+  }
+
+  .disabled\:opacity-50:disabled {
+    opacity: .5;
   }
 
   @media (width >= 40rem) {

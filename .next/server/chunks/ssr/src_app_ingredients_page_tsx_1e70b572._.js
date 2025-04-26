@@ -19,8 +19,8 @@ function IngredientsPage() {
     const [form, setForm] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])({});
     const [editingId, setEditingId] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(null);
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
-        fetch("/api/ingredients").then((res)=>res.json()).then(setIngredients);
-        fetch("/api/measurement-units").then((res)=>res.json()).then(setUnits);
+        void fetch("/api/ingredients").then(async (res)=>setIngredients(await res.json()));
+        void fetch("/api/measurement-units").then(async (res)=>setUnits(await res.json()));
     }, []);
     function handleChange(e) {
         setForm({
@@ -28,29 +28,30 @@ function IngredientsPage() {
             [e.target.name]: e.target.value
         });
     }
-    function handleSubmit(e) {
+    async function handleSubmit(e) {
         e.preventDefault();
         const method = editingId ? "PUT" : "POST";
-        fetch("/api/ingredients" + (editingId ? `/${editingId}` : ""), {
+        const response = await fetch("/api/ingredients" + (editingId ? `/${editingId}` : ""), {
             method,
             headers: {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(form)
-        }).then((res)=>res.json()).then((updated)=>{
-            setForm({});
-            setEditingId(null);
-            fetch("/api/ingredients").then((res)=>res.json()).then(setIngredients);
         });
+        await response.json();
+        setForm({});
+        setEditingId(null);
+        const ingredientsResponse = await fetch("/api/ingredients");
+        setIngredients(await ingredientsResponse.json());
     }
     function handleEdit(ingredient) {
         setForm(ingredient);
         setEditingId(ingredient.id);
     }
     function handleDelete(id) {
-        fetch(`/api/ingredients/${id}`, {
+        void fetch(`/api/ingredients/${id}`, {
             method: "DELETE"
-        }).then(()=>fetch("/api/ingredients").then((res)=>res.json()).then(setIngredients));
+        }).then(()=>void fetch("/api/ingredients").then(async (res)=>setIngredients(await res.json())));
     }
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
         className: "p-8 max-w-2xl mx-auto",
@@ -70,7 +71,7 @@ function IngredientsPage() {
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
                         name: "name",
                         placeholder: "Name",
-                        value: form.name || "",
+                        value: form.name ?? "",
                         onChange: handleChange,
                         className: "border p-2 rounded w-full",
                         required: true
@@ -83,7 +84,7 @@ function IngredientsPage() {
                         name: "quantity",
                         placeholder: "Quantity",
                         type: "number",
-                        value: form.quantity || "",
+                        value: form.quantity ?? "",
                         onChange: handleChange,
                         className: "border p-2 rounded w-full",
                         required: true
@@ -96,7 +97,7 @@ function IngredientsPage() {
                         name: "cost",
                         placeholder: "Cost",
                         type: "number",
-                        value: form.cost || "",
+                        value: form.cost ?? "",
                         onChange: handleChange,
                         className: "border p-2 rounded w-full",
                         required: true
@@ -106,9 +107,9 @@ function IngredientsPage() {
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
-                        name: "supplier",
-                        placeholder: "Supplier",
-                        value: form.supplier || "",
+                        name: "supplierId",
+                        placeholder: "Supplier ID",
+                        value: form.supplierId ?? "",
                         onChange: handleChange,
                         className: "border p-2 rounded w-full",
                         required: true
@@ -119,7 +120,7 @@ function IngredientsPage() {
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
                         name: "measurementUnitId",
-                        value: form.measurementUnitId || "",
+                        value: form.measurementUnitId ?? "",
                         onChange: handleChange,
                         className: "border p-2 rounded w-full",
                         required: true,
@@ -289,7 +290,7 @@ function IngredientsPage() {
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
                                         className: "border p-2",
-                                        children: ingredient.supplier
+                                        children: ingredient.supplierId
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/ingredients/page.tsx",
                                         lineNumber: 126,
