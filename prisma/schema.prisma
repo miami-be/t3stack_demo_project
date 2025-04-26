@@ -44,6 +44,7 @@ model Ingredient {
     supplier          Supplier         @relation(fields: [supplierId], references: [id])
     createdAt         DateTime         @default(now())
     updatedAt         DateTime         @updatedAt
+    mealIngredients   MealIngredient[]
 }
 
 model Supplier {
@@ -55,6 +56,28 @@ model Supplier {
     createdAt    DateTime    @default(now())
     updatedAt    DateTime    @updatedAt
 }
+
+model Meal {
+    id          String           @id @default(cuid())
+    name        String
+    description String
+    recipe      String
+    price       Float
+    ingredients MealIngredient[]
+    createdAt   DateTime         @default(now())
+    updatedAt   DateTime         @updatedAt
+}
+
+model MealIngredient {
+    id           String      @id @default(cuid())
+    meal         Meal       @relation(fields: [mealId], references: [id])
+    mealId       String
+    ingredient   Ingredient @relation(fields: [ingredientId], references: [id])
+    ingredientId String
+    quantity     Float
+}
+
+
 
 
 // Necessary for Next auth

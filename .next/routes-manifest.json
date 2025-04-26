@@ -59,6 +59,12 @@
       "namedRegex": "^/ingredients(?:/)?$"
     },
     {
+      "page": "/meals",
+      "regex": "^/meals(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/meals(?:/)?$"
+    },
+    {
       "page": "/suppliers",
       "regex": "^/suppliers(?:/)?$",
       "routeKeys": {},

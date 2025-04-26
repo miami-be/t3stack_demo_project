@@ -1,12 +1,14 @@
 {
-  "/_not-found/page": "/_not-found",
   "/api/ingredients/[id]/route": "/api/ingredients/[id]",
   "/api/ingredients/route": "/api/ingredients",
-  "/api/measurement-units/route": "/api/measurement-units",
+  "/_not-found/page": "/_not-found",
+  "/api/meals/route": "/api/meals",
   "/api/suppliers/route": "/api/suppliers",
+  "/api/measurement-units/route": "/api/measurement-units",
   "/api/trpc/[trpc]/route": "/api/trpc/[trpc]",
+  "/api/auth/[...nextauth]/route": "/api/auth/[...nextauth]",
+  "/meals/page": "/meals",
   "/ingredients/page": "/ingredients",
-  "/suppliers/page": "/suppliers",
   "/page": "/",
-  "/api/auth/[...nextauth]/route": "/api/auth/[...nextauth]"
+  "/suppliers/page": "/suppliers"
 }

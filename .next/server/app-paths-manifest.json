@@ -1,8 +1,5 @@
 {
-  "/api/ingredients/route": "app/api/ingredients/route.js",
-  "/api/measurement-units/route": "app/api/measurement-units/route.js",
-  "/api/suppliers/route": "app/api/suppliers/route.js",
-  "/ingredients/page": "app/ingredients/page.js",
-  "/page": "app/page.js",
-  "/suppliers/page": "app/suppliers/page.js"
+  "/api/meals/route": "app/api/meals/route.js",
+  "/meals/page": "app/meals/page.js",
+  "/page": "app/page.js"
 }
