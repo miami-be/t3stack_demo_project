@@ -1,0 +1,6 @@
+# Tell GitHub Linguist to ignore build output and focus on TypeScript
+.next/* linguist-vendored
+out/* linguist-vendored
+dist/* linguist-vendored
+# Optionally, ignore JavaScript files except config
+src/env.js linguist-vendored
