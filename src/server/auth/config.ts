@@ -2,6 +2,8 @@ import { PrismaAdapter } from "@auth/prisma-adapter";
 import { type DefaultSession, type NextAuthConfig } from "next-auth";
 
 import EmailProvider from "next-auth/providers/email";
+import CredentialsProvider from "next-auth/providers/credentials";
+import bcrypt from "bcryptjs";
 
 import { db } from "~/server/db";
 
@@ -33,6 +35,26 @@ declare module "next-auth" {
  */
 export const authConfig = {
   providers: [
+    CredentialsProvider({
+      name: "Credentials",
+      credentials: {
+        email: { label: "Email", type: "email", placeholder: "jsmith@example.com" },
+        password: { label: "Password", type: "password" }
+      },
+      async authorize(credentials) {
+        if (!credentials || typeof credentials.email !== "string" || typeof credentials.password !== "string") {
+          return null;
+        }
+        const { email, password } = credentials;
+        const user = await db.user.findUnique({ where: { email } });
+        if (!user || typeof user.password !== "string") return null;
+        const isValid = await bcrypt.compare(password, user.password);
+        if (!isValid) return null;
+        // Don't return password in session
+        const { password: _, ...userWithoutPassword } = user;
+        return userWithoutPassword;
+      },
+    }),
 
     EmailProvider({
       server: {

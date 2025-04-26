@@ -1,9 +1,9 @@
 {
   "app": {
-    "[project]/src/app/meals/page": [
+    "[project]/src/app/page": [
       "static/media/gyByhwUxId8gMEwcGFWNOITd-s.p.da1ebef7.woff2"
     ],
-    "[project]/src/app/page": [
+    "[project]/src/app/register/page": [
       "static/media/gyByhwUxId8gMEwcGFWNOITd-s.p.da1ebef7.woff2"
     ]
   },
