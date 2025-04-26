@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 7, "column": 0}, "map": {"version":3,"sources":[],"names":[],"mappings":"","debugId":null}},
+    {"offset": {"line": 70, "column": 0}, "map": {"version":3,"sources":["file:///Users/miami/Projects/t3stack_demo_project/src/app/api/measurement-units/route.ts"],"sourcesContent":["import { NextResponse } from \"next/server\";\nimport { PrismaClient } from \"@prisma/client\";\n\nconst prisma = new PrismaClient();\n\n// GET: List all measurement units\nexport async function GET() {\n  const units = await prisma.measurementUnit.findMany({ orderBy: { name: \"asc\" } });\n  return NextResponse.json(units);\n}\n"],"names":[],"mappings":";;;AAAA;AACA;;;AAEA,MAAM,SAAS,IAAI,6HAAA,CAAA,eAAY;AAGxB,eAAe;IACpB,MAAM,QAAQ,MAAM,OAAO,eAAe,CAAC,QAAQ,CAAC;QAAE,SAAS;YAAE,MAAM;QAAM;IAAE;IAC/E,OAAO,gIAAA,CAAA,eAAY,CAAC,IAAI,CAAC;AAC3B","debugId":null}}]
+}

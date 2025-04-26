@@ -1,0 +1,8 @@
+{
+  "/_not-found/page": "app/_not-found/page.js",
+  "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
+  "/api/ingredients/route": "app/api/ingredients/route.js",
+  "/api/measurement-units/route": "app/api/measurement-units/route.js",
+  "/ingredients/page": "app/ingredients/page.js",
+  "/page": "app/page.js"
+}
